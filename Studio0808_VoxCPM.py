@@ -102,7 +102,12 @@ class App(ctk.CTk):
         super().__init__()
 
         # Variables
-        self.script_dir = os.path.dirname(os.path.abspath(__file__))
+        if getattr(sys, 'frozen', False):
+            self.script_dir = os.path.dirname(sys.executable)
+            self.resource_dir = sys._MEIPASS
+        else:
+            self.script_dir = os.path.dirname(os.path.abspath(__file__))
+            self.resource_dir = os.path.dirname(os.path.abspath(__file__))
 
         # Configure window
         self.title("Studio0808 語音合成工作站 (V20260619)")
@@ -118,7 +123,7 @@ class App(ctk.CTk):
             pass
 
         try:
-            icon_path = os.path.join(self.script_dir, "app.ico")
+            icon_path = os.path.join(self.resource_dir, "app.ico")
             if os.path.exists(icon_path):
                 self.iconbitmap(icon_path)
                 self.iconbitmap(default=icon_path)
@@ -223,7 +228,7 @@ class App(ctk.CTk):
         # Navigation Buttons
         self.nav_buttons = []
         self.nav_images = {}
-        icons_dir = os.path.join(self.script_dir, "assets", "icons")
+        icons_dir = os.path.join(self.resource_dir, "assets", "icons")
         nav_items = [
             ("home", " 首頁", "#1E88E5", "home.png"),
             ("record", " 即時錄音", "#E91E63", "realtime_vc.png"),
@@ -400,7 +405,7 @@ class App(ctk.CTk):
         header_hl = ctk.CTkFrame(highlight_card, fg_color="transparent")
         header_hl.pack(fill="x", padx=15, pady=(5, 2))
         
-        icon_path_bulb = os.path.join(self.script_dir, "assets", "icons", "bulb.png")
+        icon_path_bulb = os.path.join(self.resource_dir, "assets", "icons", "bulb.png")
         if os.path.exists(icon_path_bulb):
             img_bulb = ctk.CTkImage(light_image=Image.open(icon_path_bulb), size=(20, 20))
             lbl_icon_hl = ctk.CTkLabel(header_hl, image=img_bulb, text="")
@@ -434,7 +439,7 @@ class App(ctk.CTk):
         header_hw = ctk.CTkFrame(hw_card, fg_color="transparent")
         header_hw.pack(fill="x", padx=15, pady=(5, 2))
         
-        icon_path_hammer = os.path.join(self.script_dir, "assets", "icons", "toolbox.png")
+        icon_path_hammer = os.path.join(self.resource_dir, "assets", "icons", "toolbox.png")
         if os.path.exists(icon_path_hammer):
             img_hammer = ctk.CTkImage(light_image=Image.open(icon_path_hammer), size=(20, 20))
             lbl_icon_hw = ctk.CTkLabel(header_hw, image=img_hammer, text="")
@@ -462,7 +467,7 @@ class App(ctk.CTk):
         header_lic = ctk.CTkFrame(license_card, fg_color="transparent")
         header_lic.pack(fill="x", padx=15, pady=(5, 2))
         
-        icon_path_warning = os.path.join(self.script_dir, "assets", "icons", "warning.png")
+        icon_path_warning = os.path.join(self.resource_dir, "assets", "icons", "warning.png")
         if os.path.exists(icon_path_warning):
             img_warning = ctk.CTkImage(light_image=Image.open(icon_path_warning), size=(20, 20))
             lbl_icon_lic = ctk.CTkLabel(header_lic, image=img_warning, text="")
